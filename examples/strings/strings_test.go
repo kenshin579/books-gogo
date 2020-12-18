@@ -46,6 +46,30 @@ func Example_strCat() {
 	// abcdef
 }
 
+func ExampleRange() {
+	for i, r := range "가나다" {
+		fmt.Println(i, r)
+	}
+	fmt.Println(len("가나다"))
+	// Output:
+	//0 44032
+	//3 45208
+	//6 45796
+	//9
+}
+
+func ExampleRange2() {
+	for i, r := range "abc" {
+		fmt.Println(i, r)
+	}
+	fmt.Println(len("abc"))
+	// Output:
+	//0 97
+	//1 98
+	//2 99
+	//3
+}
+
 // To make sure not to know the result in compile time.
 var s4 = time.Now().Format("20060102")
 
