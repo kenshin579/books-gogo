@@ -8,6 +8,30 @@ import (
 	"time"
 )
 
+func Example_range() {
+	for i, r := range "가나다" {
+		fmt.Println(i, r)
+	}
+	fmt.Println(len("가나다"))
+	// Output:
+	//0 44032
+	//3 45208
+	//6 45796
+	//9
+}
+
+func Example_range2() {
+	for i, r := range "abc" {
+		fmt.Println(i, r)
+	}
+	fmt.Println(len("abc"))
+	// Output:
+	//0 97
+	//1 98
+	//2 99
+	//3
+}
+
 func Example_printBytes() {
 	s := "가나다"
 	for i := 0; i < len(s); i++ {
@@ -44,30 +68,6 @@ func Example_strCat() {
 	// Output:
 	// abcdef
 	// abcdef
-}
-
-func ExampleRange() {
-	for i, r := range "가나다" {
-		fmt.Println(i, r)
-	}
-	fmt.Println(len("가나다"))
-	// Output:
-	//0 44032
-	//3 45208
-	//6 45796
-	//9
-}
-
-func ExampleRange2() {
-	for i, r := range "abc" {
-		fmt.Println(i, r)
-	}
-	fmt.Println(len("abc"))
-	// Output:
-	//0 97
-	//1 98
-	//2 99
-	//3
 }
 
 // To make sure not to know the result in compile time.
