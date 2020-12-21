@@ -104,3 +104,42 @@ func Example_sliceCopy() {
 	// Output:
 	// [30 20 50 10 40]
 }
+
+//todo : 이 부분은 다시 보도록 함
+func Example_slice_insert() {
+	x := []int{7, 8, 9}
+	a := []int{1, 2, 3, 4, 5}
+
+	fmt.Println(a)
+
+	a = append(a, x...)
+	fmt.Println(a)
+
+	i := 3
+	copy(a[i+len(x):], a[i:])
+	copy(a[i:], x)
+	fmt.Print(a)
+
+	// Output:
+	//[1 2 3 4 5]
+	//[1 2 3 4 5 7 8 9]
+	//[1 2 3 7 8 9 4 5]
+}
+
+//todo : 이 부분은 다시 보도록 함
+func Example_slice_delete() {
+	a := []int{1, 2, 3, 4, 5}
+
+	fmt.Println(a)
+	i, k := 3, 1
+	copy(a[i:], a[i+k:])
+	for i := 0; i < k; i++ {
+		a[len(a)-1-i] = 0
+	}
+	a = a[:len(a)-k]
+	fmt.Println(a)
+
+	// Output:
+	//[1 2 3 4 5]
+	//[1 2 3 5]
+}
