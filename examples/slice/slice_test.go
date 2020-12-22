@@ -8,11 +8,13 @@ func Example_slicing() {
 	fmt.Println(nums[1:3])
 	fmt.Println(nums[2:])
 	fmt.Println(nums[:3])
+	fmt.Println(nums[:len(nums)-1])
 	// Output:
 	// [1 2 3 4 5]
 	// [2 3]
 	// [3 4 5]
 	// [1 2 3]
+	// [1 2 3 4]
 }
 
 func Example_append() {
@@ -78,4 +80,66 @@ func Example_sliceCap() {
 	// cap: 5
 	//
 	// [1 2 100 4 5] [1 2 100] [100 4 5] [1 2 100 4]
+}
+
+func Example_sliceCopy() {
+	src := []int{30, 20, 50, 10, 40}
+	dest := make([]int, len(src))
+	//1. loop
+	//for i:= range src {
+	//	dest[i] = src[i]
+	//}
+
+	//2.copy()
+	//if n:= copy(dest,src); n!= len(src){
+	//	fmt.Println("복사가 덜 됐습니다.")
+	//}
+
+	//3.append
+	dest = append([]int(nil), src...)
+
+	//dest := src (이건 그냥 배열 포인터, 길이, 용량이 복사되는 거임)
+
+	fmt.Println(dest)
+	// Output:
+	// [30 20 50 10 40]
+}
+
+//todo : 이 부분은 다시 보도록 함
+func Example_slice_insert() {
+	x := []int{7, 8, 9}
+	a := []int{1, 2, 3, 4, 5}
+
+	fmt.Println(a)
+
+	a = append(a, x...)
+	fmt.Println(a)
+
+	i := 3
+	copy(a[i+len(x):], a[i:])
+	copy(a[i:], x)
+	fmt.Print(a)
+
+	// Output:
+	//[1 2 3 4 5]
+	//[1 2 3 4 5 7 8 9]
+	//[1 2 3 7 8 9 4 5]
+}
+
+//todo : 이 부분은 다시 보도록 함
+func Example_slice_delete() {
+	a := []int{1, 2, 3, 4, 5}
+
+	fmt.Println(a)
+	i, k := 3, 1
+	copy(a[i:], a[i+k:])
+	for i := 0; i < k; i++ {
+		a[len(a)-1-i] = 0
+	}
+	a = a[:len(a)-k]
+	fmt.Println(a)
+
+	// Output:
+	//[1 2 3 4 5]
+	//[1 2 3 5]
 }

@@ -2,13 +2,16 @@ package eval
 
 // Eval returns the evaluation result of the given expr.
 import (
+	log "github.com/sirupsen/logrus"
 	"strconv"
 	"strings"
 )
 
+//todo : 이거 다시 스터디 하기
 // The expression can have +, -, *, /, (, ) operators and
 // decimal integers. Operators and operands should be
 func Eval(expr string) int {
+
 	var ops []string
 	var nums []int
 	pop := func() int {
@@ -17,6 +20,10 @@ func Eval(expr string) int {
 		return last
 	}
 	reduce := func(higher string) {
+		log.WithFields(log.Fields{
+			"higher": higher,
+			"ops":    ops,
+		}).Info("reduce")
 		for len(ops) > 0 {
 			op := ops[len(ops)-1]
 			if strings.Index(higher, op) < 0 {
@@ -29,6 +36,7 @@ func Eval(expr string) int {
 				return
 			}
 			b, a := pop(), pop()
+
 			switch op {
 			case "+":
 				nums = append(nums, a+b)
@@ -42,6 +50,11 @@ func Eval(expr string) int {
 		}
 	}
 	for _, token := range strings.Split(expr, " ") {
+		log.WithFields(log.Fields{
+			"ops":   ops,
+			"nums":  nums,
+			"token": token,
+		}).Info("")
 		switch token {
 		case "(":
 			ops = append(ops, token)

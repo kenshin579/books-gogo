@@ -40,6 +40,7 @@ func ReadFrom(r io.Reader, adjList *[][]int) error {
 		}
 		(*adjList)[i] = make([]int, lsize)
 		for j := 0; j < lsize; j++ {
+			//todo : &(* <-- 이건 왜 이런지 완전하게 이해는 못함
 			if _, err := fmt.Fscanf(r, " %d", &(*adjList)[i][j]); err != nil {
 				return err
 			}
