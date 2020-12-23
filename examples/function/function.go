@@ -14,6 +14,7 @@ func AddOne(nums []int) {
 }
 
 // WriteTo writes each element in lines to w.
+// 명명된 결과 인자 (Named Return parameter)
 func WriteTo(w io.Writer, lines []string) (n int64, err error) {
 	for _, line := range lines {
 		var nw int
