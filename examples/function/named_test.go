@@ -16,3 +16,11 @@ func ExampleBinOpToBinSub() {
 	// 12
 	// count: 3
 }
+
+func Example_BinOp() {
+	OpThreeAndFour(func(a, b int) int {
+		return 1 + 3
+	})
+	// Output:
+	//4
+}
