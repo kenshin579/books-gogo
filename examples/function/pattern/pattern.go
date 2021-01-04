@@ -16,6 +16,8 @@ func Square(x float64) float64 {
 	return x * x
 }
 
+//1.firstGuess 값의 시작으로 f 함수를 계속 실행함
+//2.값이 tolerance 값보다 작으면 true로 계산을 끝낸다
 func FixedPoint(f Func, firstGuess float64) float64 {
 	closeEnough := func(v1, v2 float64) bool {
 		return math.Abs(v1-v2) < tolerance
@@ -42,6 +44,7 @@ func Deriv(g Func) Func {
 	}
 }
 
+//이 함수는 g를 받아서 반복적으로 적용하면 g(x) = 0에 점점 다가가는 x값을 반환하는 함수를 돌려줌
 func NewtonTransform(g Func) Func {
 	return func(x float64) float64 {
 		return x - (g(x) / Deriv(g)(x))
@@ -52,4 +55,16 @@ func Sqrt(x float64) float64 {
 	return FixedPointOfTransform(func(y float64) float64 {
 		return Square(y) - x
 	}, NewtonTransform, 1.0)
+}
+
+func AverageDamp(g Func) Func {
+	return func(x float64) float64 {
+		return 0.5 * (x + g(x))
+	}
+}
+
+func SlowerSqrt(x float64) float64 {
+	return FixedPointOfTransform(func(y float64) float64 {
+		return x / y
+	}, AverageDamp, 1.0)
 }
