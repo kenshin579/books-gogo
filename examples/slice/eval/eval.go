@@ -7,24 +7,22 @@ import (
 	"strings"
 )
 
-//todo : 이거 다시 스터디 하기
-// The expression can have +, -, *, /, (, ) operators and
-// decimal integers. Operators and operands should be
 func Eval(expr string) int {
+	log.Printf("expr: %v", expr)
+	var ops []string //연산자 저장하는 곳
+	var nums []int   //숫자 및 연산결과 저장하는 곳
 
-	var ops []string
-	var nums []int
-	pop := func() int {
+	//마지막 값을 pop해서 반환함
+	popNum := func() int {
 		last := nums[len(nums)-1]
 		nums = nums[:len(nums)-1]
 		return last
 	}
+
+	//nums에 있는 값을 계산하는 곳임 (a + b -> c)
 	reduce := func(higher string) {
-		log.WithFields(log.Fields{
-			"higher": higher,
-			"ops":    ops,
-		}).Info("reduce")
-		for len(ops) > 0 {
+		log.Printf("  higher:%v ops:%v\n", higher, ops)
+		for len(ops) > 0 { //연산자가 있는 경우에만 진행함
 			op := ops[len(ops)-1]
 			if strings.Index(higher, op) < 0 {
 				// 목록에 없는 연산자이므로 종료
@@ -35,7 +33,8 @@ func Eval(expr string) int {
 				// 괄호를 제거하였으므로 종료
 				return
 			}
-			b, a := pop(), pop()
+			b, a := popNum(), popNum()
+			log.Printf("b:%v a:%v", b, a)
 
 			switch op {
 			case "+":
@@ -49,12 +48,11 @@ func Eval(expr string) int {
 			}
 		}
 	}
+
+	//여기서부터 시작됨
 	for _, token := range strings.Split(expr, " ") {
-		log.WithFields(log.Fields{
-			"ops":   ops,
-			"nums":  nums,
-			"token": token,
-		}).Info("")
+		log.Printf("ops:%v nums:%v token:%v", ops, nums, token)
+
 		switch token {
 		case "(":
 			ops = append(ops, token)
