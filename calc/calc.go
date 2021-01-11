@@ -8,11 +8,12 @@ import (
 // String set type
 type StrSet map[string]struct{}
 
+//todo : 이게 무엇을 반환하는지 스터디하기
 // NewStrSet returns a new StrSet with the give strs.
 func NewStrSet(strs ...string) StrSet {
 	m := StrSet{}
 	for _, str := range strs {
-		m[str] = struct{}{}
+		m[str] = struct{}{} //todo : 이건의 의미는?
 	}
 	return m
 }
@@ -56,6 +57,8 @@ func Eval(opMap map[string]BinOp, prec PrecMap, expr string) int {
 				return
 			}
 			b, a := pop(), pop()
+
+			//switch 문에서 map 형태로 변경
 			if f := opMap[op]; f != nil {
 				nums = append(nums, f(a, b))
 			}

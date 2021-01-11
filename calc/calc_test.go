@@ -55,3 +55,10 @@ func ExampleNewEvaluator() {
 	// 2 ** 3 mod 3 = 2
 	// 2 ** 2 ** 3 = 256
 }
+
+func Example() {
+	set := NewStrSet()
+	fmt.Println("set", set)
+	//Output:
+
+}
