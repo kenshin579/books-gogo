@@ -37,7 +37,7 @@ func (s status) MarshalJSON() ([]byte, error) {
 	if str == "" {
 		return nil, errors.New("status.MarshalJSON: unknown value")
 	}
-	return []byte(fmt.Sprintf("\"%s\"", str)), nil
+	return []byte(fmt.Sprintf("\"%s\"", str)), nil //todo : 왜 springf를 사용해야 하나?
 }
 
 // UnmarshalJSON parses the string representation of status and stores
@@ -115,4 +115,9 @@ func (t IncludeSubTasks) indentedString(prefix string) string {
 // tasks.
 func (t IncludeSubTasks) String() string {
 	return t.indentedString("")
+}
+
+type Fields struct {
+	VisibleField   string `json:"visibleField"`
+	InvisibleField string `json:"invisibleField"`
 }
