@@ -105,8 +105,10 @@ type IncludeSubTasks Task
 
 func (t IncludeSubTasks) indentedString(prefix string) string {
 	str := prefix + Task(t).String()
+
+	//todo : 다른 방법으로 출력하는 방법이 있나?
 	for _, st := range t.SubTasks {
-		str += "\n" + IncludeSubTasks(st).indentedString(prefix+"  ")
+		str += "\n" + IncludeSubTasks(st).indentedString(prefix+"  ") //형 변환을 IncludeSubTasks로 함
 	}
 	return str
 }
