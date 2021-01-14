@@ -37,7 +37,7 @@ func (s status) MarshalJSON() ([]byte, error) {
 	if str == "" {
 		return nil, errors.New("status.MarshalJSON: unknown value")
 	}
-	return []byte(fmt.Sprintf("\"%s\"", str)), nil
+	return []byte(fmt.Sprintf("\"%s\"", str)), nil //todo : 왜 springf를 사용해야 하나?
 }
 
 // UnmarshalJSON parses the string representation of status and stores
@@ -105,8 +105,10 @@ type IncludeSubTasks Task
 
 func (t IncludeSubTasks) indentedString(prefix string) string {
 	str := prefix + Task(t).String()
+
+	//todo : 다른 방법으로 출력하는 방법이 있나?
 	for _, st := range t.SubTasks {
-		str += "\n" + IncludeSubTasks(st).indentedString(prefix+"  ")
+		str += "\n" + IncludeSubTasks(st).indentedString(prefix+"  ") //형 변환을 IncludeSubTasks로 함
 	}
 	return str
 }
@@ -115,4 +117,9 @@ func (t IncludeSubTasks) indentedString(prefix string) string {
 // tasks.
 func (t IncludeSubTasks) String() string {
 	return t.indentedString("")
+}
+
+type Fields struct {
+	VisibleField   string `json:"visibleField"`
+	InvisibleField string `json:"invisibleField"`
 }
