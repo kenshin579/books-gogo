@@ -15,6 +15,7 @@ var m = task.NewInMemoryAccessor()
 
 // var m = mongodao.New("", "taskman", "tasks")
 
+//여러 개의 task에 대한 정보를 반환한다
 func getTasks(r *http.Request) ([]task.Task, error) {
 	var result []task.Task
 	if err := r.ParseForm(); err != nil {

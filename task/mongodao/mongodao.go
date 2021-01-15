@@ -40,7 +40,7 @@ func idToObjectId(id task.ID) bson.ObjectId {
 
 // objectIdToID returns task.ID converted from objID.
 func objectIdToID(objID bson.ObjectId) task.ID {
-	return task.ID(objID.Hex())
+	return task.ID(objID.Hex()) //mongodbID를 16진수 형으로 변경함
 }
 
 // Get returns a task with a given ID.
