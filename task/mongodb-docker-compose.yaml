@@ -1,0 +1,17 @@
+#todo : 작성중
+#https://medium.com/faun/managing-mongodb-on-docker-with-docker-compose-26bf8a0bbae3
+
+version: "3.8"
+services:
+  mongodb:
+  image: mongo
+  container_name: mongodb
+  environment:
+    - MONGO_INITDB_DATABASE=taskman
+    - MONGO_INITDB_ROOT_USERNAME=root
+    - MONGO_INITDB_ROOT_PASSWORD=password
+  volumes:
+    - /home/barry/mongodb/database:/data/db
+  ports:
+    - 27017:27017
+  restart: unless-stopped
