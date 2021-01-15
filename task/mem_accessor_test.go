@@ -1,12 +1,12 @@
 package task
 
 import (
-	"log"
+	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
 )
 
-func Test_Post(t *testing.T) {
+func Test_Post_Get(t *testing.T) {
 	inMemoryAccessor := NewInMemoryAccessor()
 	t1 := Task{
 		"Laundry",
@@ -16,20 +16,22 @@ func Test_Post(t *testing.T) {
 		nil,
 	}
 
-	id, err := inMemoryAccessor.Post(t1)
-	if err != nil {
-		log.Fatal("error occurred while creating task", err)
-	}
+	id, _ := inMemoryAccessor.Post(t1)
 	//assert.Equal(t, interface{}(id).(string), "1")
 	if id != "1" {
 		t.Errorf("got %s, want %s", id, "1")
 	}
 
-	task, err := inMemoryAccessor.Get(id)
-	if err != nil {
-		log.Fatal("error occurred while getting task", err)
-	}
+	task, _ := inMemoryAccessor.Get(id)
 	if task.Title != t1.Title {
 		t.Errorf("got %s, want %s", id, t1.Title)
 	}
+}
+
+func TestGet_없는_id로_조홰시_오류가_발생한다(t *testing.T) {
+	inMemoryAccessor := NewInMemoryAccessor()
+	id := ID("1")
+
+	_, err := inMemoryAccessor.Get(id)
+	assert.EqualError(t, err, "task does not exist")
 }
