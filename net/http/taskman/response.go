@@ -13,6 +13,13 @@ type ResponseError struct {
 	Err error
 }
 
+// Response is a struct for the JSON response.
+type Response struct {
+	ID    task.ID       `json:"id,omitempty"`
+	Task  task.Task     `json:"task"`
+	Error ResponseError `json:"error"`
+}
+
 // MarshalJSON returns the JSON representation of the error.
 func (err ResponseError) MarshalJSON() ([]byte, error) {
 	if err.Err == nil {
@@ -42,11 +49,4 @@ func (err *ResponseError) UnmarshalJSON(b []byte) error {
 	default:
 		return errors.New("ResponseError unmarshal failed")
 	}
-}
-
-// Response is a struct for the JSON response.
-type Response struct {
-	ID    task.ID       `json:"id,omitempty"`
-	Task  task.Task     `json:"task"`
-	Error ResponseError `json:"error"`
 }
