@@ -2,7 +2,10 @@
 // algorithm.
 package min
 
-import "sync"
+import (
+	log "github.com/sirupsen/logrus"
+	"sync"
+)
 
 // Min returns the minimum number from slice a.
 func Min(a []int) int {
@@ -26,12 +29,14 @@ func ParallelMin(a []int, n int) int {
 	}
 	mins := make([]int, n)
 	bucketSize := (len(a) + n - 1) / n
+	log.Info("bucketSize: ", bucketSize)
 	var wg sync.WaitGroup
 	for i := 0; i < n; i++ {
 		wg.Add(1)
 		go func(i int) {
 			defer wg.Done()
 			begin, end := i*bucketSize, (i+1)*bucketSize
+			log.Info("[", i, "] begin:", begin, " end:", end)
 			if end > len(a) {
 				end = len(a)
 			}
