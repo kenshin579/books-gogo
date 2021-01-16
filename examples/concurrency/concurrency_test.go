@@ -10,6 +10,7 @@ func Example_goroutine() {
 	// Non-deterministic!
 }
 
+//일대일 단방향 채널 소통
 func Example_simpleChannel() {
 	c := make(chan int)
 	go func() {
