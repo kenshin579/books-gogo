@@ -4,14 +4,13 @@
 version: "3.8"
 services:
   mongodb:
-  image: mongo
-  container_name: mongodb
-  environment:
-    - MONGO_INITDB_DATABASE=taskman
-    - MONGO_INITDB_ROOT_USERNAME=root
-    - MONGO_INITDB_ROOT_PASSWORD=password
-  volumes:
-    - /home/barry/mongodb/database:/data/db
-  ports:
-    - 27017:27017
-  restart: unless-stopped
+    image: 'mongo:4.2'
+    container_name: 'mongodb-books-gogo'
+    environment:
+      - MONGO_INITDB_DATABASE=books-gogo-taskman
+#      - MONGO_INITDB_ROOT_USERNAME=root
+#      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - ${HOME}/data/docker/books_gogo_mongodb:/data/db
+    ports:
+      - 27017:27017
