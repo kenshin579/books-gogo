@@ -11,6 +11,7 @@ func FibNth(n int) int {
 }
 
 // FibChan returns a channel that emits the Fibonacci sequence up to max.
+//받아가기만 하는 채널을 반환한다
 func FibChan(max int) <-chan int {
 	c := make(chan int)
 	go func() {
