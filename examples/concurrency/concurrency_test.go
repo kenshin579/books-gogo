@@ -24,6 +24,7 @@ func Example_create_channels() {
 }
 
 //일대일 단방향 채널 소통
+//이 코드는 서로 몇개의 데이터를 보내는지 알아야 함
 func Example_simpleChannel() {
 	c := make(chan int)
 	go func() {
@@ -40,13 +41,14 @@ func Example_simpleChannel() {
 	// 3
 }
 
+//서로 데이터의 개수를 모르는 경우
 func Example_simpleChannelForLoop() {
 	c := make(chan int)
 	go func() {
 		c <- 1
 		c <- 2
 		c <- 3
-		close(c)
+		close(c) //다 보내고 나서 채널을 닫음
 	}()
 	for num := range c {
 		fmt.Println(num)
@@ -58,10 +60,10 @@ func Example_simpleChannelForLoop() {
 }
 
 func Example_simpleChannelReturnChannel() {
-	ch := func() <-chan int {
+	ch := func() <-chan int { //채널을 반환하는 함수 - 데이터를 받아가기만하는 채널임
 		c := make(chan int)
 		go func() {
-			defer close(c)
+			defer close(c) //이 함수 끝나면 채널을 닫음
 			c <- 1
 			c <- 2
 			c <- 3
