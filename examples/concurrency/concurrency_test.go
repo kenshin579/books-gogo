@@ -10,6 +10,19 @@ func Example_goroutine() {
 	// Non-deterministic!
 }
 
+func Example_create_channels() {
+	c1 := make(chan int)
+	var c2 chan int = c1   //동일한 채널을 가리킨다
+	var c3 <-chan int = c1 //c3 : 받기 전용
+	var c4 chan<- int = c1 //c4 : 보내기 전용
+
+	fmt.Println(c2)
+	fmt.Println(c3)
+	fmt.Println(c4)
+	//Output:
+
+}
+
 //일대일 단방향 채널 소통
 func Example_simpleChannel() {
 	c := make(chan int)
@@ -45,7 +58,7 @@ func Example_simpleChannelForLoop() {
 }
 
 func Example_simpleChannelReturnChannel() {
-	c := func() <-chan int {
+	ch := func() <-chan int {
 		c := make(chan int)
 		go func() {
 			defer close(c)
@@ -55,7 +68,7 @@ func Example_simpleChannelReturnChannel() {
 		}()
 		return c
 	}()
-	for num := range c {
+	for num := range ch {
 		fmt.Println(num)
 	}
 	// Output:
