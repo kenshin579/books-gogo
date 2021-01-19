@@ -44,6 +44,20 @@ func Example_SimplePlusTwo() {
 	// 10
 }
 
+func Example_FanOut() {
+	c := make(chan int)
+
+	go func() {
+		defer close(c)
+		for i := 0; i < 10; i++ {
+			c <- i
+		}
+	}()
+
+	FanOut(c)
+	//Output:
+}
+
 func ExamplePlusOne() {
 	c := make(chan int)
 	go func() {

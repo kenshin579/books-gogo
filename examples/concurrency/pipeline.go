@@ -2,7 +2,9 @@ package concurrency
 
 import (
 	"context"
+	"fmt"
 	"sync"
+	"time"
 )
 
 //in으로 받은 값 nums에 대해 num + 1 시켜 채널로 반환한다
@@ -27,6 +29,17 @@ func SimpleChain(intPipes ...SimpleIntPipe) SimpleIntPipe {
 			c = pipeFunc(c) //첫번째 pipeFunc은 채널을 반환한고 다시 그 채널로 두번째 pipeFunc을 실행하는 구조이다
 		}
 		return c
+	}
+}
+
+func FanOut(in <-chan int) {
+	for i := 0; i < 3; i++ {
+		go func(i int) {
+			for n := range in {
+				time.Sleep(1)
+				fmt.Printf("worker-%d %d\n", i, n)
+			}
+		}(i)
 	}
 }
 
