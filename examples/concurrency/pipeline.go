@@ -5,6 +5,31 @@ import (
 	"sync"
 )
 
+//in으로 받은 값 nums에 대해 num + 1 시켜 채널로 반환한다
+//즉, 받기 전용 채널을 받아서 다른 받기 전용 채널을 돌려주는 함수임
+func SimplePlusOne(in <-chan int) <-chan int {
+	out := make(chan int)
+	go func() {
+		defer close(out)
+		for num := range in {
+			out <- num + 1
+		}
+	}()
+	return out
+}
+
+type SimpleIntPipe func(<-chan int) <-chan int
+
+func SimpleChain(intPipes ...SimpleIntPipe) SimpleIntPipe {
+	return func(in <-chan int) <-chan int {
+		c := in
+		for _, pipeFunc := range intPipes {
+			c = pipeFunc(c) //첫번째 pipeFunc은 채널을 반환한고 다시 그 채널로 두번째 pipeFunc을 실행하는 구조이다
+		}
+		return c
+	}
+}
+
 // PlusOne returns a channel of num + 1 for nums received from in.
 func PlusOne(ctx context.Context, in <-chan int) <-chan int {
 	out := make(chan int)

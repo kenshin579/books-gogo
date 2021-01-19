@@ -9,6 +9,41 @@ import (
 	"context"
 )
 
+func Example_SimplePlusOne() {
+	c := make(chan int)
+	go func() {
+		defer close(c)
+		c <- 5
+		c <- 3
+		c <- 8
+	}()
+	for num := range SimplePlusOne(SimplePlusOne(c)) {
+		fmt.Println(num)
+	}
+	// Output:
+	// 7
+	// 5
+	// 10
+}
+
+func Example_SimplePlusTwo() {
+	SimplePlusTwo := SimpleChain(SimplePlusOne, SimplePlusOne)
+	c := make(chan int)
+	go func() {
+		defer close(c)
+		c <- 5
+		c <- 3
+		c <- 8
+	}()
+	for num := range SimplePlusTwo(c) {
+		fmt.Println(num)
+	}
+	// Output:
+	// 7
+	// 5
+	// 10
+}
+
 func ExamplePlusOne() {
 	c := make(chan int)
 	go func() {
