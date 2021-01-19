@@ -79,7 +79,7 @@ func Example_simpleChannelReturnChannel() {
 	// 3
 }
 
-func BabyNames(first, second string) <-chan string {
+func BabyNames(first, second string) <-chan string { //받기만하는 채널 반환
 	c := make(chan string)
 	go func() {
 		defer close(c)
