@@ -92,6 +92,16 @@ func FanIn(ins ...<-chan int) <-chan int {
 	return out
 }
 
+func SimpleDistribute(p SimpleIntPipe, n int) SimpleIntPipe {
+	return func(in <-chan int) <-chan int {
+		cs := make([]<-chan int, n)
+		for i := 0; i < n; i++ {
+			cs[i] = p(in)
+		}
+		return FanIn(cs...)
+	}
+}
+
 func Distribute(p IntPipe, n int) IntPipe {
 	return func(ctx context.Context, in <-chan int) <-chan int {
 		cs := make([]<-chan int, n)

@@ -112,6 +112,11 @@ func ExampleFanIn3() {
 	//Output:
 }
 
+//todo : fanOut -> fanIn 작성해보기
+func Example_Distribute() {
+	//Output:
+}
+
 func ExamplePlusOne_consumeAll() {
 	c := make(chan int)
 	go func() {
