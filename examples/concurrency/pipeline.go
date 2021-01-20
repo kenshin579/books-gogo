@@ -85,7 +85,7 @@ func FanIn(ins ...<-chan int) <-chan int {
 			}
 		}(in)
 	}
-	go func() {
+	go func() { //todo : 왜 고루틴으로 실행하나? - 특별한 이유가 있나?
 		wg.Wait()
 		close(out)
 	}()
