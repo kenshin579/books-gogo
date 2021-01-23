@@ -3,6 +3,7 @@ package concurrency
 import (
 	"context"
 	"fmt"
+	"log"
 	"sync"
 	"time"
 )
@@ -15,6 +16,25 @@ func SimplePlusOne(in <-chan int) <-chan int {
 		defer close(out)
 		for num := range in {
 			out <- num + 1
+		}
+	}()
+	return out
+}
+
+//done 채널이 닫히면 output 채널도 담힘
+func SimplePlusOneDone(done <-chan struct{}, in <-chan int) <-chan int {
+	out := make(chan int)
+	go func() {
+		defer close(out)
+		for num := range in {
+			select {
+			case out <- num + 1:
+				log.Printf("out <- sending %d - %d\n", num+1, num)
+			case <-done: //close(done)을 하면 이곳을 타게 됨
+				log.Println("done channel is closing", num)
+				return
+			}
+
 		}
 	}()
 	return out

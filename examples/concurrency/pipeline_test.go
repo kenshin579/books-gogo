@@ -136,6 +136,72 @@ func Example_Distribute() {
 	//Output:
 }
 
+//이런 패턴은 좋지 않음 - done 채널을 하나 더 두면 좋음
+func ExampleSimplePlusOne_consumeAll_파이프라인_중단하기() {
+	c := make(chan int)
+	go func() {
+		defer close(c)
+		for i := 3; i < 103; i += 10 {
+			c <- i
+		}
+	}()
+	nums := SimplePlusOne(SimplePlusOne(SimplePlusOne(SimplePlusOne(SimplePlusOne(c)))))
+	for num := range nums {
+		fmt.Println(num)
+		if num == 18 { //18인 경우에 멈춤
+			break
+		}
+	}
+	time.Sleep(100 * time.Millisecond)
+	// fmt.Println("NumGoroutine: ", runtime.NumGoroutine())
+	log.Println("NumGoroutine: ", runtime.NumGoroutine())
+	for _ = range nums {
+		// Consume all nums
+	}
+	time.Sleep(100 * time.Millisecond)
+	// fmt.Println("NumGoroutine: ", runtime.NumGoroutine())
+	log.Println("NumGoroutine: ", runtime.NumGoroutine())
+	// Output:
+	// 8
+	// 18
+}
+
+func ExampleSimplePlusOne_consumeAll_파이프라인_중단하기_done_채널_추가() {
+	c := make(chan int)
+	go func() {
+		defer close(c)
+		for i := 3; i < 103; i += 10 {
+			log.Println("in <- sending", i)
+			c <- i
+		}
+	}()
+
+	done := make(chan struct{})
+	nums := SimplePlusOneDone(done, SimplePlusOneDone(done, SimplePlusOneDone(done, SimplePlusOneDone(done, SimplePlusOneDone(done, c)))))
+	//nums := SimplePlusOneDone(done, SimplePlusOneDone(done, c))
+	for num := range nums {
+		log.Println("receiving", num)
+		fmt.Println(num)
+		if num == 18 { //18이후부터 번호는 받지 않음
+			break
+		}
+	}
+	log.Println("broadcasting done channel")
+	close(done) //이 채널로부터 값을 기다리고 있는 모든 고루틴에 일이 끝났다고 방송을 하는 거임
+	time.Sleep(100 * time.Millisecond)
+	// fmt.Println("NumGoroutine: ", runtime.NumGoroutine())
+	log.Println("NumGoroutine: ", runtime.NumGoroutine())
+	for _ = range nums {
+		// Consume all nums
+	}
+	time.Sleep(100 * time.Millisecond)
+	// fmt.Println("NumGoroutine: ", runtime.NumGoroutine())
+	log.Println("NumGoroutine: ", runtime.NumGoroutine())
+	// Output:
+	// 8
+	// 18
+}
+
 func ExamplePlusOne_consumeAll() {
 	c := make(chan int)
 	go func() {
