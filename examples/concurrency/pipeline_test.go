@@ -93,6 +93,25 @@ func Example_contextSwitching_fanOut() {
 	// Non-deterministic!
 }
 
+func ExampleFanIn() {
+	c1, c2, c3 := make(chan int), make(chan int), make(chan int)
+	sendInts := func(c chan<- int, begin, end int) {
+		defer close(c)
+		for i := begin; i < end; i++ {
+			c <- i
+		}
+	}
+	go sendInts(c1, 11, 14)
+	go sendInts(c2, 21, 23)
+	go sendInts(c3, 31, 35)
+	c := FanIn(c1, c2, c3) //여러 채널에서 나온 자료는 모두 c로 나오게 된다
+	for n := range c {
+		fmt.Print(n, ",")
+	}
+
+	//Output:
+}
+
 func ExampleFanIn3() {
 	c1, c2, c3 := make(chan int), make(chan int), make(chan int)
 	sendInts := func(c chan<- int, begin, end int) {
