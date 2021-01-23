@@ -116,7 +116,7 @@ func FanIn3(in1, in2, in3 <-chan int) <-chan int {
 	out := make(chan int)
 	openCnt := 3
 	closeChan := func(c *<-chan int) bool {
-		*c = nil
+		*c = nil //nil로 하면 채널이 block이 된다
 		openCnt--
 		return openCnt == 0
 	}
