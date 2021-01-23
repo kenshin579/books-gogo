@@ -72,6 +72,7 @@ func PlusOne(ctx context.Context, in <-chan int) <-chan int {
 			select {
 			case out <- num + 1:
 			case <-ctx.Done():
+				log.Println("done", num)
 				return
 			}
 		}

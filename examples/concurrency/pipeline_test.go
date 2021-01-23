@@ -245,6 +245,7 @@ func ExamplePlusOne_withCancel() {
 	for num := range nums {
 		fmt.Println(num)
 		if num == 18 {
+			log.Println("cancel is called")
 			cancel()
 			break
 		}
