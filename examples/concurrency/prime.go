@@ -2,6 +2,7 @@ package concurrency
 
 import (
 	"fmt"
+	"log"
 
 	"context"
 )
@@ -16,6 +17,7 @@ func Range(ctx context.Context, start, step int) <-chan int {
 			select {
 			case out <- i:
 			case <-ctx.Done():
+				log.Println("done")
 				return
 			}
 		}
@@ -36,6 +38,7 @@ func FilterMultiple(n int) IntPipe {
 				select {
 				case out <- x:
 				case <-ctx.Done():
+					log.Println("done")
 					return
 				}
 			}
@@ -56,9 +59,11 @@ func Primes(ctx context.Context) <-chan int {
 				select {
 				case out <- i:
 				case <-ctx.Done():
+					log.Println("done")
 					return
 				}
 			case <-ctx.Done():
+				log.Println("done")
 				return
 			}
 		}

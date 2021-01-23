@@ -5,6 +5,7 @@ import (
 	"sync"
 )
 
+//요청과 응답 pairing 시키기
 func ExamplePlusOneService() {
 	reqs := make(chan Request)
 	defer close(reqs)
@@ -22,5 +23,5 @@ func ExamplePlusOneService() {
 		}(i)
 	}
 	wg.Wait()
-	// Non-deterministic
+	//Output:
 }
