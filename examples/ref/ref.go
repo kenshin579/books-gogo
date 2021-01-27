@@ -18,6 +18,7 @@ func FieldNames(s interface{}) ([]string, error) {
 	return names, nil
 }
 
+//todo : 이 부분은 다음에 더 분석하도록 함
 func AppendNilError(f interface{}, err error) (interface{}, error) {
 	t := reflect.TypeOf(f)
 	if t.Kind() != reflect.Func {
