@@ -24,4 +24,14 @@ func Example() {
 	fmt.Println(m.Count(1))
 	fmt.Println(m.Count(2))
 	fmt.Println(m.Count(5))
+
+	//Output:
+	//{ }
+	//0
+	//{ 3 3 3 3 }
+	//4
+	//3
+	//1
+	//1
+	//0
 }
